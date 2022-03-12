@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# MathKids es una App para ensañar matematicas a los niños
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

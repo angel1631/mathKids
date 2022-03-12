@@ -1,4 +1,5 @@
 import {useEffect, useState, useRef} from 'react';
+import { Camino } from './Camino';
 
 function Restas(){
     let a = useState();
@@ -6,7 +7,10 @@ function Restas(){
     let respuesta = useState('');
     let resultado = useState('');
     let url_img = useState('');
-    let url_back_opt = useState({a: `background${getRandomInt(0,3)}.jpg`, b: `background${getRandomInt(0,3)}.jpg`})
+    let url_back_opt = useState({a: `background${getRandomInt(0,3)}.jpg`, b: `background${getRandomInt(0,3)}.jpg`});
+    let personaje = useState({img: `${process.env.PUBLIC_URL}/media/personaje.png`});
+    let camino = useState([]);
+    let puntuacion = useState(0);
     let show_resultado = useState(false);
     let audio;
     let input_respuesta = useRef();
@@ -22,11 +26,13 @@ function Restas(){
     function comprobar(e){
         e.preventDefault();
         if((a[0] - b[0])===parseInt(respuesta[0])){
-            url_img[1](`win${getRandomInt(0,10)}.gif`);
+            url_img[1](`win${getRandomInt(0,11)}.gif`);
             resultado[1]('correcto');
-            audio = new Audio(`${process.env.PUBLIC_URL}/media/win_audio${getRandomInt(0,2)}.ogg`);
+            audio = new Audio(`${process.env.PUBLIC_URL}/media/win_audio${getRandomInt(0,4)}.ogg`);
             audio.play();
+            puntuacion[1](puntuacion[0]+1);
             setTimeout(nueva_resta,3000);
+
         } 
         else{
             url_img[1](`lose${getRandomInt(0,5)}.gif`);
@@ -53,7 +59,8 @@ function Restas(){
     }
     useEffect(()=>{
         nueva_resta();
-    },[])
+    },[]);
+    
     return (
     <div className={` h-screen w-full restas bg-[url(${process.env.PUBLIC_URL}/media/background_animado0.gif)]`}>
         <div className='w-full text-center bg-sky-600 text-white text-2xl py-2 shadow-xl'>Restas</div>
@@ -92,9 +99,20 @@ function Restas(){
                 }
                 
             </div>
-        }   
+        }
+        <div className='w-full bg-blue-100'>
+            <Camino longitud={10}  state_puntuacion={puntuacion} state_camino={camino}></Camino>
+        </div>   
     </div>);
 };
+
+function camino(){
+    let longitud = 10;
+    let camino = [];
+    for(let x = 0;x<longitud;x++){
+        camino.push(<div></div>)
+    }
+}
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
